@@ -108,7 +108,7 @@ let removeItem = (id) => {
 };
 
 let totalAmount = () => {
-  if (basket !== 0) {
+  if (basket.length !== 0) {
     let amount = basket
       .map((x) => {
         let { id, item } = x;
@@ -116,7 +116,7 @@ let totalAmount = () => {
         return item * search.price;
       })
       .reduce((acc, item) => acc + item, 0);
-    // console.log(amount);
+    // console.log(basket);
     label.innerHTML = `
     <h2>Total Bill : $ ${amount}</h2>
     <div class="cart-btn">

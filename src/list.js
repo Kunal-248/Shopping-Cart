@@ -1,38 +1,55 @@
+let label = document.getElementById("label");
+let wishlist = document.getElementById("wishlist-pg");
 let shop = document.getElementById("shop");
 
+let listBasket = JSON.parse(localStorage.getItem("listData"));
 let basket = JSON.parse(localStorage.getItem("data")) || [];
-let listBasket = JSON.parse(localStorage.getItem("listData")) || [];
 
-let generateShop = () => {
-  return (shop.innerHTML = shopItemsData
-    .map((x) => {
-      let { id, name, price, desc, img } = x; // destructing
-      let search = basket.find((x) => x.id === id) || [];
-      return `        
-        <div id=product-id-${id} class="item">
-            <img width="227" src="${img}" alt="">
-            <div class="details">
-                <div class="details-title">
-                  <h3>${name}</h3>
-                  <i onclick="addList(${id})" class="bi bi-heart"></i>
-                </div>
-                <p>${desc}</p>
-                <div class="price-quantity">
-                    <h2 class="pro-price">$ ${price}</h2>
-                    <div class="buttons">
-                        <i onclick="decrement(${id})" class="bi bi-dash-lg"></i>
-                        <div id=${id} class="quantity">
-                        ${search.item === undefined ? 0 : search.item}
-                        </div>
-                        <i onclick="increment(${id})" class="bi bi-plus-lg"></i>
+let generateList = () => {
+  if (listBasket.length !== 0) {
+    return (label.innerHTML = listBasket
+      .map((x) => {
+        let { id } = x;
+        let search = shopItemsData.find((y) => y.id === id) || [];
+        let { img, name, desc, price, item } = search;
+        return `
+        <div id=product-id-${search.id} class="item">
+        <img width="227" src="${img}" alt="">
+        <div class="details">
+            <div class="details-title">
+              <h3>${name}</h3>
+              <i onclick="addList(${id})" class="bi bi-heart"></i>
+            </div>
+            <p>${desc}</p>
+            <div class="price-quantity">
+                <h2 class="pro-price">$ ${price}</h2>
+                <div class="buttons">
+                    <i onclick="decrement(${
+                      search.id
+                    })" class="bi bi-dash-lg"></i>
+                    <div id=${search.id} class="quantity">
+                    ${search.item === undefined ? 0 : search.item}
                     </div>
+                    <i onclick="increment(${
+                      search.id
+                    })" class="bi bi-plus-lg"></i>
                 </div>
             </div>
-        </div>`;
-    })
-    .join(""));
+        </div>
+    </div>`;
+      })
+      .join(""));
+  } else {
+    wishlist.innerHTML = ``;
+    label.innerHTML = `
+    <h2>Wishlist is Empty</h2>
+    <a href="index.html">
+        <button class="homeBtn">Back to Home<button>
+    </a>
+    `;
+  }
 };
-generateShop();
+generateList();
 
 // increment********************
 let increment = (id) => {
@@ -87,19 +104,14 @@ let addList = (id) => {
   let selectedId = id;
   let search = listBasket.find((x) => x.id === selectedId.id);
 
-  if (search === undefined) {
-    listBasket.push({
-      id: selectedId.id,
-      item: 1,
-    });
-  } else {
+  if (search.id === selectedId.id) {
     listBasket.pop({
       id: selectedId.id,
       item: "",
     });
   }
   console.log(listBasket);
-  listCalculation();
+  generateList();
   localStorage.setItem("listData", JSON.stringify(listBasket));
 };
 
@@ -109,5 +121,4 @@ let listCalculation = () => {
     .map((x) => x.item)
     .reduce((acc, item) => acc + item, 0);
 };
-
-listCalculation();
+// listCalculation();

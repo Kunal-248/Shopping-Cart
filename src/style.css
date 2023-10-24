@@ -28,24 +28,32 @@ a {
   margin-bottom: 30px;
 }
 
-.cart {
+.cart-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.cart,
+.list {
   position: relative;
-  background-color: aliceblue;
-  color: #212529;
+  color: aliceblue;
+  /* color: #212529; */
   font-size: 30px;
   padding: 5px;
   border-radius: 5px;
 }
 
-.cartAmount {
+.cartAmount,
+.wishlist-Amount {
   position: absolute;
-  top: -15px;
-  right: -10px;
-  font-size: 16px;
+  top: -10px;
+  right: -8px;
+  font-size: 14px;
   color: aliceblue;
   background-color: red;
   padding: 4px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 /* ********************************** */
 
@@ -78,6 +86,27 @@ a {
   flex-direction: column;
   padding: 10px;
   gap: 10px;
+}
+
+.details-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bi-heart {
+  /* background-color: red; */
+  position: relative;
+  margin-right: 5px;
+}
+
+.bi-heart:hover {
+  color: palevioletred;
+}
+
+.bi-heart:visited {
+  background-color: red;
 }
 
 .price-quantity,
@@ -178,4 +207,10 @@ a {
   border: none;
   cursor: pointer;
   border-radius: 3px;
+}
+/* ***** WishList ***** */
+.label {
+  display: grid;
+  grid-template-columns: repeat(2, 350px);
+  gap: 30px;
 }
